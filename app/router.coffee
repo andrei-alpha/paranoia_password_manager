@@ -22,6 +22,7 @@ ParanoiaRouter = Backbone.Router.extend
     @identities.add stub_identity2
 
   listIdentities: ->
+    window.identities = @identities
     console.log("listIdentities")
     @view = new ListIdentitiesView
       el: $('.root-view')
