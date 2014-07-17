@@ -30,6 +30,9 @@ module.exports = class NewIdentitiesView extends Backbone.View
     @identity.set('username', username)
     @identity.set('password', password)
 
-    @collection.add @identity
+    @collection.add(@identity)
+    @identity.save {},
+      success: -> console.log('saved new identity')
+      error: -> alert('failed to save new identity')
 
     Backbone.history.navigate('#', {trigger: true})

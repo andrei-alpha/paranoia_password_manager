@@ -14,17 +14,20 @@ ParanoiaRouter = Backbone.Router.extend
     'identity/:id': 'identity'
 
   initialize: ->
+    @initDropboxDatastores()
+
     @identities = new IdentityCollection()
-    stub_identity1 = new Identity()
-    stub_identity1.set 'name', 'Facebook'
-    stub_identity1.set 'username', 'test'
-    stub_identity1.set 'password', 'pass123'
-    @identities.add stub_identity1
-    stub_identity2 = new Identity()
-    stub_identity2.set 'name', 'Google Apps'
-    stub_identity2.set 'username', 'test'
-    stub_identity2.set 'password', 'pass789'
-    @identities.add stub_identity2
+    @identities.fetch()
+
+  initDropboxDatastores: ->
+    client = new Dropbox.Client({key: 'dzifnkasbikzon7'})
+    # Try to finish OAuth authorization.
+    client.authenticate({interactive: false})
+    # Redirect to Dropbox to authenticate if client isn't authenticated
+    if !client.isAuthenticated()
+      client.authenticate()
+    # Set client for Backbone.DropboxDatastore to work with Dropbox
+    Backbone.DropboxDatastore.client = client
 
   listIdentities: ->
     window.identities = @identities
