@@ -32,17 +32,13 @@ ParanoiaRouter = Backbone.Router.extend
   listIdentities: ->
     window.identities = @identities
     console.log("listIdentities")
-    view = new ListIdentitiesView
-      el: $('.root-view')
+    @showView new ListIdentitiesView
       collection: @identities
-    view.render()
 
   new: ->
     console.log 'new'
-    view = new NewIdentityView
-      el: $('.root-view')
+    @showView new NewIdentityView
       collection: @identities
-    view.render()
 
   settings: ->
     console.log 'settings'
@@ -50,9 +46,15 @@ ParanoiaRouter = Backbone.Router.extend
   identity: (id)->
     console.log 'identity', id
     identity = @identities.get id
-    view = new IdentityView
-      el: $('.root-view')
+    @showView new IdentityView
       model: identity
-    view.render()
+
+  showView: (view)->
+    if @view
+      @view.remove()
+      @view.unbind()
+    @view = view
+    @view.render()
+    el: $('.root-view').append(@view.el)
 
 module.exports = ParanoiaRouter

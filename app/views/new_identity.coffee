@@ -7,19 +7,12 @@ module.exports = class NewIdentitiesView extends Backbone.View
   events:
     'click #new_identity_save' : 'save'
 
-  initialize: ->
-    @saved = false
-
   render: ->
     @$el.html(@template())
     this
 
   save: (event)->
     event.preventDefault()
-
-    if @saved
-      return
-    @saved = true
 
     name = @$('#new_identity_name').val().trim()
     username = @$('#new_identity_username').val().trim()
