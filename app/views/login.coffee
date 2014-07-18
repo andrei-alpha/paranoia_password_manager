@@ -4,6 +4,7 @@ module.exports = class LoginView extends Backbone.View
 
   events:
     'click #login-submit' : 'loginSubmit'
+    'keypress #login-master-password': 'passwordOnKeypress'
 
   render: ->
     @$el.html(@template())
@@ -15,7 +16,9 @@ module.exports = class LoginView extends Backbone.View
 
   onVerify: (err, buff) =>
     if err
-      @$('#login-error').show()
+      $formGroup = @$('#login-master-password').closest('.form-group')
+      $formGroup.addClass('has-error')
+      $formGroup.find('.control-label').text('Wrong password')
     else
       @setMasterPassword()
 
@@ -26,3 +29,8 @@ module.exports = class LoginView extends Backbone.View
       model.decryptAttribute('username', @masterPassword, null, @onVerify)
     else
       @setMasterPassword()
+
+  passwordOnKeypress: (e) ->
+    code = e.keyCode or e.which
+    if code == 13
+      @loginSubmit()

@@ -1,13 +1,28 @@
-<div>
-  <input id="new_identity_name" type="text" class="form-control" placeholder="Identity Name" />
-</div>
-<div>
-  <input id="new_identity_username" type="text" class="form-control" placeholder="Username" />
-</div>
-<div>
-  <input id="new_identity_password" type="text" class="form-control" placeholder="Password" />
-  <div id="password_strength_bar"></div>
-</div>
-<div>
-  <input id="new_identity_save" type="submit" class="btn btn-primary" />
+<center><h3>New service</h3></center>
+
+<div class="form-horizontal">
+  <div class="form-group">
+    <label for="new_identity_name" class="col-sm-3 control-label">Service Name</label>
+    <div class="col-sm-9">
+      <input id="new_identity_name" type="text" class="form-control" placeholder="Enter the name of this service" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="new_identity_username" class="col-sm-3 control-label">Username</label>
+    <div class="col-sm-9">
+      <input id="new_identity_username" type="text" class="form-control" placeholder="Enter your username for this service" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="new_identity_password" class="col-sm-3 control-label">Username</label>
+    <div class="col-sm-9">
+      <input id="new_identity_password" type="text" class="form-control" placeholder="Enter your password for this service" />
+      <div id="password_strength_bar"></div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-9">
+      <input id="new_identity_save" type="submit" class="btn btn-primary" />
+    </div>
+  </div>
 </div>
