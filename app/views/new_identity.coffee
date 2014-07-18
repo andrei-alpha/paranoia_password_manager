@@ -1,6 +1,6 @@
 Identity = require 'models/identity'
 
-module.exports = class NewIdentitiesView extends Backbone.View
+module.exports = class NewIdentityView extends Backbone.View
 
   template: require 'views/templates/new_identity'
   password_strength_template: require 'views/templates/password_strength'

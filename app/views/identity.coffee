@@ -1,4 +1,4 @@
-module.exports = class ListIdentitiesView extends Backbone.View
+module.exports = class IdentityView extends Backbone.View
 
   template: require 'views/templates/identity'
 
