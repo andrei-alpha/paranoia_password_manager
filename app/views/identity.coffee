@@ -1,6 +1,7 @@
 module.exports = class IdentityView extends Backbone.View
 
   template: require 'views/templates/identity'
+  progress_template: require 'views/templates/progress_bar'
 
   events:
     'click #identity-delete': 'delete'
@@ -11,18 +12,24 @@ module.exports = class IdentityView extends Backbone.View
     this
 
   updateDecryptProgress: (percentage, $el) ->
-    console.log percentage
+    data =
+      percentage: percentage
+      progress_bar_class: 'progress-bar-striped'
+    $el.html(@progress_template(data))
 
   decrypt: ->
     @$('#identity-decrypt').prop('disabled', true)
 
+    $password_el = @$('#identity-password')
+    $username_el = @$('#identity-username')
+
     @model.decryptAttribute("password", window.masterPassword,
-      (percentage) => @updateDecryptProgress(percentage, "password"),
-      (err, value) => @$('#identity-password').text(value)
+      (percentage) => @updateDecryptProgress(percentage, $password_el),
+      (err, value) => $password_el.text(value)
       )
     @model.decryptAttribute("username", window.masterPassword,
-      (percentage) => @updateDecryptProgress(percentage, "username"),
-      (err, value) => @$('#identity-username').text(value)
+      (percentage) => @updateDecryptProgress(percentage, $username_el),
+      (err, value) => $username_el.text(value)
       )
 
   delete: (event) ->
