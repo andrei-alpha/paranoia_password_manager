@@ -12,16 +12,19 @@ module.exports = class Identity extends Backbone.Model
     triplesec.decrypt
       data: triplesec.Buffer(@get(attribute), 'hex')
       key: triplesec.Buffer(masterPassword)
-      progress_hook: (obj)-> progressCallback(Identity.getPercentage(obj))
-    , (err, buff) -> doneCallback(err, buff)
+      progress_hook: (obj)->
+        progressCallback(Identity.getPercentage(obj)) if progressCallback
+    , (err, buff) ->
+      doneCallback(err, buff) if doneCallback
 
   encryptAttribute: (attribute, masterPassword, value,
                      progressCallback, doneCallback) ->
     triplesec.encrypt
       data: triplesec.Buffer(value)
       key: triplesec.Buffer(masterPassword)
-      progress_hook: (obj)-> progressCallback(Identity.getPercentage(obj))
+      progress_hook: (obj)->
+        progressCallback(Identity.getPercentage(obj)) if progressCallback
     , (err, buff) =>
       if !err
         @set(attribute, buff.toString('hex'))
-        doneCallback()
+        doneCallback() if doneCallback
