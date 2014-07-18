@@ -22,6 +22,7 @@ module.exports = class LoginView extends Backbone.View
       $formGroup = @$('#login-master-password').closest('.form-group')
       $formGroup.addClass('has-error')
       $formGroup.find('.control-label').text('Wrong password')
+      @$('#login-submit').prop('disabled', false)
     else
       @setMasterPassword()
 
@@ -34,8 +35,11 @@ module.exports = class LoginView extends Backbone.View
     @$('#login_progress_bar').html(@progress_template(data))
 
   loginSubmit: ->
+    if @$('#login-submit').prop('disabled') == true
+      return
     @masterPassword = @$('#login-master-password').val()
     model = @collection.models[0]
+    @$('#login-submit').prop('disabled', true)
     if model
       model.decryptAttribute('username', @masterPassword,
                              @updateProgress, @onVerify)
