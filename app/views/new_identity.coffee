@@ -18,7 +18,6 @@ module.exports = class NewIdentityView extends Backbone.View
 
   render: ->
     @$el.html(@template())
-    @generatePassword()
     @password_change()
     this
 
@@ -28,6 +27,16 @@ module.exports = class NewIdentityView extends Backbone.View
     name = @$('#new_identity_name').val().trim()
     username = @$('#new_identity_username').val()
     password = @$('#new_identity_password').val()
+
+    if name.length == 0
+      alert "Service Name can't be empty"
+      return
+    if username.length == 0
+      alert "Username can't be empty"
+      return
+    if password.length == 0
+      alert "Password can't be empty"
+      return
 
     @updateProgress(0)
     @collection.addIdentity(name, username, password, window.masterPassword
@@ -57,6 +66,7 @@ module.exports = class NewIdentityView extends Backbone.View
           if password.length == PASSWORD_LENGTH
             break
     @$('#new_identity_password').val(password)
+    @password_change()
 
   password_change: ->
     password = @$('#new_identity_password').val().trim()
