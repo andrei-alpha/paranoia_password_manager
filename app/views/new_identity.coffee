@@ -21,22 +21,44 @@ module.exports = class NewIdentityView extends Backbone.View
     @password_change()
     this
 
+  validate: ->
+    hasError = false
+
+    name = @$('#new_identity_name').val().trim()
+    $formGroup = @$('#new_identity_name').closest('.form-group')
+    if name.length == 0
+      $formGroup.addClass('has-error')
+      hasError = true
+    else
+      $formGroup.removeClass('has-error')
+
+    username = @$('#new_identity_username').val()
+    $formGroup = @$('#new_identity_username').closest('.form-group')
+    if username.length == 0
+      $formGroup.addClass('has-error')
+      hasError = true
+    else
+      $formGroup.removeClass('has-error')
+
+    password = @$('#new_identity_password').val()
+    $formGroup = @$('#new_identity_password').closest('.form-group')
+    if password.length == 0
+      $formGroup.addClass('has-error')
+      hasError = true
+    else
+      $formGroup.removeClass('has-error')
+
+    return not hasError
+
   save: (event)->
     event.preventDefault()
+
+    if not @validate()
+      return
 
     name = @$('#new_identity_name').val().trim()
     username = @$('#new_identity_username').val()
     password = @$('#new_identity_password').val()
-
-    if name.length == 0
-      alert "Service Name can't be empty"
-      return
-    if username.length == 0
-      alert "Username can't be empty"
-      return
-    if password.length == 0
-      alert "Password can't be empty"
-      return
 
     @updateProgress(0)
     @collection.addIdentity(name, username, password, window.masterPassword
