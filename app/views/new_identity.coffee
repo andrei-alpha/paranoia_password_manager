@@ -121,3 +121,4 @@ module.exports = class NewIdentityView extends Backbone.View
     data = data_dict[score]
     data.percentage = 25 * score
     @$('#password_strength_bar').html(@progress_template(data))
+    @$('#password_crack_time').text(result.crack_time_display)
