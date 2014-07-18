@@ -62,7 +62,6 @@ module.exports = class NewIdentityView extends Backbone.View
         c = String.fromCharCode(b)
         if c in allowedLetters
           password += c
-          console.log("adding", password.length, password)
           if password.length == PASSWORD_LENGTH
             break
     @$('#new_identity_password').val(password)

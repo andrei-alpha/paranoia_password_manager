@@ -24,5 +24,5 @@ module.exports = class IdentityCollection extends Backbone.Collection
       progressCallback,
       () => @storeIdentityIfCompleted(identity, doneCallback))
     identity.encryptAttribute('username', window.masterPassword, username,
-      progressCallback,
+      null, # Only use the password encryption to update the progress.
       () => @storeIdentityIfCompleted(identity, doneCallback))

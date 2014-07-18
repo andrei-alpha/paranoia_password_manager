@@ -56,12 +56,9 @@ ParanoiaRouter = Backbone.Router.extend
       model: identity
 
   showView: (view, passwordRequired=true) ->
-    console.log("show view", window.masterPassword)
     if passwordRequired and not window.masterPassword
-      console.log('wtf', passwordRequired)
       Backbone.history.navigate('#login', {trigger: true})
       return
-    console.log(view)
     if @view
       @view.remove()
       @view.unbind()
