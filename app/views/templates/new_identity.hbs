@@ -14,9 +14,14 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="new_identity_password" class="col-sm-3 control-label">Username</label>
+    <label for="new_identity_password" class="col-sm-3 control-label">Password</label>
     <div class="col-sm-9">
-      <input id="new_identity_password" type="text" class="form-control" placeholder="Enter your password for this service" />
+      <div class="input-group">
+        <input id="new_identity_password" type="text" class="form-control" placeholder="Enter your password for this service" />
+        <span class="input-group-btn">
+          <button id="new_identity_generate_pass" class="btn btn-default" type="button">Generate</button>
+        </span>
+      </div>
       <div id="password_strength_bar"></div>
     </div>
   </div>

@@ -16,10 +16,11 @@ module.exports = class IdentityCollection extends Backbone.Collection
         error: -> alert('failed to save new identity')
       savedCallback()
 
-  addIdentity: (name, username, password, progressCallback, doneCallback) ->
+  addIdentity: (name, username, password, masterPassword, progressCallback,
+                doneCallback) ->
     identity = new Identity()
     identity.set('name', name)
-    identity.encryptAttribute('password', @window.masterPassword, password,
+    identity.encryptAttribute('password', window.masterPassword, password,
       () => @storeIdentityIfCompleted(identity, doneCallback))
-    identity.encryptAttribute('username', @window.masterPassword, username,
+    identity.encryptAttribute('username', window.masterPassword, username,
       () => @storeIdentityIfCompleted(identity, doneCallback))

@@ -2,6 +2,8 @@ Identity = require 'models/identity'
 
 module.exports = class NewIdentityView extends Backbone.View
 
+  PASSWORD_LENGTH = 12
+
   template: require 'views/templates/new_identity'
   password_strength_template: require 'views/templates/password_strength'
 
@@ -9,12 +11,14 @@ module.exports = class NewIdentityView extends Backbone.View
     'click #new_identity_save' : 'save'
     'keyup #new_identity_password' : 'password_change'
     'change #new_identity_password' : 'password_change'
+    'click #new_identity_generate_pass': 'generatePassword'
 
   initialize: ->
     @password_strenght_view
 
   render: ->
     @$el.html(@template())
+    @generatePassword()
     @password_change()
     this
 
@@ -25,10 +29,26 @@ module.exports = class NewIdentityView extends Backbone.View
     username = @$('#new_identity_username').val()
     password = @$('#new_identity_password').val()
 
-    @collection.addIdentity(name, username, password,
+    @collection.addIdentity(name, username, password, window.masterPassword
       (obj) ->,
       () -> Backbone.history.navigate('#', {trigger: true})
     )
+
+  generatePassword: ->
+    if not window.crypto or window.crypto.getRandomValues
+    allowedLetters = 'abcdefghijklmnopqrstuvwxyz'
+    password = ''
+    while password.length < PASSWORD_LENGTH
+      randomBuff = new Uint8Array(200)
+      window.crypto.getRandomValues(randomBuff)
+      for b in randomBuff
+        c = String.fromCharCode(b)
+        if c in allowedLetters
+          password += c
+          console.log("adding", password.length, password)
+          if password.length == PASSWORD_LENGTH
+            break
+    @$('#new_identity_password').val(password)
 
   password_change: ->
     password = @$('#new_identity_password').val().trim()
