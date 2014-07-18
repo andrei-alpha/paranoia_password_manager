@@ -6,10 +6,12 @@ ListIdentitiesView = require 'views/list_identities'
 IdentityView = require 'views/identity'
 NewIdentityView = require 'views/new_identity'
 SettingsView = require 'views/settings'
+LoginView = require 'views/login'
 
 ParanoiaRouter = Backbone.Router.extend
   routes:
-    '': 'home'
+    '': 'identities'
+    'login': 'login'
     'new': 'new'
     'settings': 'settings'
     'identity/:id': 'identity'
@@ -30,10 +32,15 @@ ParanoiaRouter = Backbone.Router.extend
     # Set client for Backbone.DropboxDatastore to work with Dropbox
     Backbone.DropboxDatastore.client = client
 
-  home: ->
+  identities: ->
     window.identities = @identities
     @showView new ListIdentitiesView
       collection: @identities
+
+  login: ->
+    @showView new LoginView(
+      collection: @identities
+    ), false
 
   new: ->
     @showView new NewIdentityView
@@ -48,7 +55,13 @@ ParanoiaRouter = Backbone.Router.extend
     @showView new IdentityView
       model: identity
 
-  showView: (view)->
+  showView: (view, passwordRequired=true) ->
+    console.log("show view", window.masterPassword)
+    if passwordRequired and not window.masterPassword
+      console.log('wtf', passwordRequired)
+      Backbone.history.navigate('#login', {trigger: true})
+      return
+    console.log(view)
     if @view
       @view.remove()
       @view.unbind()

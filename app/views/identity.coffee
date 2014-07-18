@@ -16,11 +16,11 @@ module.exports = class IdentityView extends Backbone.View
   decrypt: ->
     @$('#identity-decrypt').prop('disabled', true)
 
-    @model.decryptAttribute("password", "password",
+    @model.decryptAttribute("password", window.masterPassword,
       (percentage) => @updateDecryptProgress(percentage, "password"),
       (err, value) => @$('#identity-password').text(value)
       )
-    @model.decryptAttribute("username", "password",
+    @model.decryptAttribute("username", window.masterPassword,
       (percentage) => @updateDecryptProgress(percentage, "username"),
       (err, value) => @$('#identity-username').text(value)
       )
