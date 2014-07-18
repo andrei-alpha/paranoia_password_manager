@@ -60,6 +60,8 @@ module.exports = class NewIdentityView extends Backbone.View
     username = @$('#new_identity_username').val()
     password = @$('#new_identity_password').val()
 
+    @$('#new_identity_save').prop('disabled', true)
+
     @updateProgress(0)
     @collection.addIdentity(name, username, password, window.masterPassword
       (percentage) => @updateProgress(percentage),
@@ -71,7 +73,7 @@ module.exports = class NewIdentityView extends Backbone.View
       percentage: percentage
       progress_bar_class: 'progress-bar-default'
       message: "Encrypting..."
-    @$el.html(@progress_template(data))
+    @$('#save_progress_bar').html(@progress_template(data))
 
   generatePassword: ->
     if not window.crypto or window.crypto.getRandomValues
