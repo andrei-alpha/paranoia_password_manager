@@ -1,6 +1,7 @@
 module.exports = class LoginView extends Backbone.View
 
   template: require 'views/templates/login'
+  progress_template: require 'views/templates/progress_bar'
 
   events:
     'click #login-submit' : 'loginSubmit'
@@ -8,6 +9,7 @@ module.exports = class LoginView extends Backbone.View
 
   render: ->
     @$el.html(@template())
+    @$('#login_progress_bar').hide()
     this
 
   setMasterPassword: () ->
@@ -15,6 +17,7 @@ module.exports = class LoginView extends Backbone.View
     Backbone.history.navigate('#', {trigger: true})
 
   onVerify: (err, buff) =>
+    @$('#login_progress_bar').hide()
     if err
       $formGroup = @$('#login-master-password').closest('.form-group')
       $formGroup.addClass('has-error')
@@ -22,11 +25,20 @@ module.exports = class LoginView extends Backbone.View
     else
       @setMasterPassword()
 
+  updateProgress: (percentage) =>
+    @$('#login_progress_bar').show()
+    data =
+      percentage: percentage
+      progress_bar_class: 'progress-bar-default'
+      message: "Authenticating..."
+    @$('#login_progress_bar').html(@progress_template(data))
+
   loginSubmit: ->
     @masterPassword = @$('#login-master-password').val()
     model = @collection.models[0]
     if model
-      model.decryptAttribute('username', @masterPassword, null, @onVerify)
+      model.decryptAttribute('username', @masterPassword,
+                             @updateProgress, @onVerify)
     else
       @setMasterPassword()
 

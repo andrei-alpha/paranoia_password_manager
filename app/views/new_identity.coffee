@@ -70,8 +70,8 @@ module.exports = class NewIdentityView extends Backbone.View
     data =
       percentage: percentage
       progress_bar_class: 'progress-bar-default'
-      message: percentage
-    @$el.html(@progress_template({percentage: percentage}))
+      message: "Encrypting..."
+    @$el.html(@progress_template(data))
 
   generatePassword: ->
     if not window.crypto or window.crypto.getRandomValues
