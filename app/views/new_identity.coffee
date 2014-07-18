@@ -3,7 +3,7 @@ Identity = require 'models/identity'
 module.exports = class NewIdentityView extends Backbone.View
 
   template: require 'views/templates/new_identity'
-  password_strength_template: require 'views/templates/password_strength'
+  progress_template: require 'views/templates/progress_bar'
 
   events:
     'click #new_identity_save' : 'save'
@@ -25,17 +25,24 @@ module.exports = class NewIdentityView extends Backbone.View
     username = @$('#new_identity_username').val()
     password = @$('#new_identity_password').val()
 
+    @updateProgress(0)
     @collection.addIdentity(name, username, password,
-      (obj) ->,
+      (percentage) => @updateProgress(percentage),
       () -> Backbone.history.navigate('#', {trigger: true})
     )
+
+  updateProgress: (percentage)->
+    data =
+      percentage: percentage
+      progress_bar_class: 'progress-bar-default'
+      message: percentage
+    @$el.html(@progress_template({percentage: percentage}))
 
   password_change: ->
     password = @$('#new_identity_password').val().trim()
     result = zxcvbn(password)
     score = result.score
 
-    # Override the score for weak passwords unless it is empty.
     if password.length > 0 and score == 0
       score = 1
 
@@ -62,5 +69,4 @@ module.exports = class NewIdentityView extends Backbone.View
 
     data = data_dict[score]
     data.percentage = 25 * score
-    @$('#password_strength_bar').html(@password_strength_template(data))
-
+    @$('#password_strength_bar').html(@progress_template(data))

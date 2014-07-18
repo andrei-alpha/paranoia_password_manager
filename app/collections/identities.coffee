@@ -20,6 +20,8 @@ module.exports = class IdentityCollection extends Backbone.Collection
     identity = new Identity()
     identity.set('name', name)
     identity.encryptAttribute('password', 'password', password,
+      progressCallback,
       () => @storeIdentityIfCompleted(identity, doneCallback))
     identity.encryptAttribute('username', 'password', username,
+      progressCallback,
       () => @storeIdentityIfCompleted(identity, doneCallback))
