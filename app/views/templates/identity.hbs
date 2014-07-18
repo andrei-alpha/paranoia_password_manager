@@ -1,15 +1,26 @@
 <div class="panel panel-default">
-  <div class="panel-heading">{{name}}</div>
-  <table class="table">
+  <div class="panel-heading">
+    <table style="width: 100%">
+      <tr>
+        <td>
+          {{name}}
+        </td>
+        <td>
+          <button id="identity-decrypt" type="button" class="btn btn-primary pull-right">Decrypt</button>
+        </td>
+      </tr>
+    </table>
+  </div> 
+  <table class="table" id="identity-decrypted-info">
     <tr>
-      <td>Username</td>
-      <td>{{username}}</td>
+      <td style="width: 1px">Username</td>
+      <td id="identity-username">********</td>
     </tr>
     <tr>
       <td>Password</td>
-      <td>{{password}}</td>
+      <td id="identity-password">********</td>
     </tr>
   </table>
 </div>
 
-<button id="identity_delete" type="button" class="btn btn-danger">Delete</button>
+<button id="identity-delete" type="button" class="btn btn-danger">Delete</button>
